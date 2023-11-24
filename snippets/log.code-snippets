@@ -1,13 +1,13 @@
 {
   "Print console": {
     "prefix": ["cl"],
-    "body": ["console.log($1)"],
+    "body": ["console.log('======',$1)"],
     "description": "快捷console."
   },
   "Console with prefix": {
     "prefix": [".plog"],
     "body": ["",
-      "console.log('${TM_CURRENT_LINE/\\.([^\\.]*)$//}', Object.prototype.toString.call(${TM_CURRENT_LINE/\\.([^\\.]*)$//}).split(' ')[1].split(']')[0], '===', ${TM_CURRENT_LINE/\\.([^\\.]*)$//});"],
+      "console.log('${TM_CURRENT_LINE/\\.([^\\.\-]*)$//}', Object.prototype.toString.call(${TM_CURRENT_LINE/\\.([^\\.\-]*)$//}).split(' ')[1].split(']')[0], '===', ${TM_CURRENT_LINE/\\.([^\\.\-]*)$//});"],
     "description": "带前缀console."
   },
 }

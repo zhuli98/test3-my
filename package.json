@@ -32,7 +32,7 @@
       {
         "command": "console-prefix.addPrefix",
         "key": "shift+alt+c",
-        "mac": "shift+cmd+c",
+        "mac": "shift+enter",
         "when": "editorFocus"
       }
     ],
