@@ -1,0 +1,12 @@
+out
+dist
+node_modules
+.vscode-test/
+*.vsix
+yarn-debug.log*
+yarn-error.log*
+npm-debug.log*
+.eslintrc.json
+package-lock.json
+.vscode/
+.vscodeignore
