@@ -2,7 +2,7 @@
   "name": "console-prefix",
   "displayName": "zhuzhu-addPrefix",
   "description": "",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "publisher": "zhuzhu",
   "engines": {
     "vscode": "^1.82.2"
