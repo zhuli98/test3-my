@@ -2,7 +2,7 @@
   "name": "console-prefix",
   "displayName": "zhuzhu-addPrefix",
   "description": "",
-  "version": "0.0.4",
+  "version": "1.0.3",
   "publisher": "zhuzhu",
   "engines": {
     "vscode": "^1.82.2"
@@ -10,13 +10,16 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": ["*"],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "console-prefix.addPrefix",
         "title": "Add Prefix"
+      },{
+        "command": "console-prefix.deleteConsole",
+        "title": "Delete Console"
       }
     ],
     "menus": {
@@ -24,6 +27,10 @@
         {
           "when": "editorHasSelection",
           "command": "console-prefix.addPrefix",
+          "group": "navigation@1"
+        },{
+          "when": "editorFocus",
+          "command": "console-prefix.deleteConsole",
           "group": "navigation@1"
         }
       ]
@@ -33,6 +40,11 @@
         "command": "console-prefix.addPrefix",
         "key": "shift+alt+c",
         "mac": "shift+enter",
+        "when": "editorFocus"
+      },{
+        "command": "console-prefix.deleteConsole",
+        "key": "shift+alt+d",
+        "mac": "shift+cmd+d",
         "when": "editorFocus"
       }
     ],

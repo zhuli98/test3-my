@@ -13,17 +13,53 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand("console-prefix.addPrefix", addPrefix
-	// () => {
-    // // The code you place here will be executed every time your command is executed
-    // // Display a message box to the user
-    // vscode.window.showInformationMessage("addPrefix from zhuzhu!");
-  	// }
-  );
+	let addPrefixFunc = vscode.commands.registerCommand("console-prefix.addPrefix", addPrefix);
+  let deleteConFunc = vscode.commands.registerCommand("console-prefix.deleteConsole", deleteConsole);
+  let hoverFunc = vscode.languages.registerHoverProvider("javascript", {
+    provideHover: (res:any) => {
+      return new vscode.Hover("hello222");
+    },
+  });
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(addPrefixFunc);
+  context.subscriptions.push(hoverFunc);
+  context.subscriptions.push(deleteConFunc);
 }
 
+// 从下到上逐行删除console.log  点一次删一行 便于检查
+function deleteConsole() {
+  const editor = vscode.window.activeTextEditor;
+  if (editor) {
+    const document = editor.document;
+    let lineAll = 0
+    for (let i = document.lineCount -1 ; i > 0 ; i--) {
+      const line = document.lineAt(i);
+      if (line.text.includes(`console.log('》======`) || line.text.includes(`console.log("》======`)) {
+        setCursorPosition(i - 1 >= 0 ? i - 1 : 0, 0);
+        lineAll++;
+        setTimeout(()=>{
+          editor.edit((editBuilder) => {
+            editBuilder.delete(line.rangeIncludingLineBreak);
+          });
+        },500)
+        break;
+      }
+    }
+  }
+}
+
+// 光标移动到具体位置
+function setCursorPosition(lineNumber:any, columnNumber:any) {
+  const editor = vscode.window.activeTextEditor;
+  if (editor) {
+    const position = new vscode.Position(lineNumber, columnNumber);
+    const selection = new vscode.Selection(position, position);
+    editor.selection = selection;
+    editor.revealRange(selection, vscode.TextEditorRevealType.InCenter);
+  }
+}
+
+// 在选中的单词下一行加入console.log  如何
 async function addPrefix() {
   vscode.window.showInformationMessage("zhuzhu addPrefix~~");
   // 获取当前打开的文件的editor
@@ -43,7 +79,7 @@ async function addPrefix() {
   ranges.forEach((range) => {
     // 通过位置信息拿到被选中的文本，然后拼接要插入的log
     const text = editor.document.getText(range);
-    const insertText = text ? `console.log('${text}', Object.prototype.toString.call(${text}).split(' ')[1].split(']')[0], '========',${text});` : "console.log();";
+    const insertText = text ? `console.log('》======','${text}', Object.prototype.toString.call(${text}).split(' ')[1].split(']')[0], '======》',${text});` : "console.log();";
     textArray.push(insertText);
   });
 
